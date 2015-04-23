@@ -14,7 +14,7 @@ amountSell = amountBuy + (amountBuy / 100 * plusMinus * diffPercent)
 rate = amountBuy / amountSell
 
 message =
-  'userId': faker.helpers.randomNumber()
+  'userId': _.random(1, 9999999)
   'currencyFrom': faker.finance.currencyCode()
   'currencyTo': faker.finance.currencyCode()
   'amountSell': amountSell

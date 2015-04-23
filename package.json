@@ -11,6 +11,7 @@
   "dependencies": {
     "body-parser": "^1.12.3",
     "express": "^4.12.3",
+    "iron_mq": "^0.2.4",
     "tracer": "^0.7.4",
     "underscore": "^1.8.3"
   },

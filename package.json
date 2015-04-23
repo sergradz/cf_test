@@ -1,0 +1,19 @@
+{
+  "name": "fairtrade",
+  "version": "1.0.0",
+  "description": "fair trade task",
+  "main": "index.coffee",
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine-node --coffee tests/api"
+  },
+  "author": "radzserg@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.12.3",
+    "express": "^4.12.3",
+    "tracer": "^0.7.4"
+  },
+  "devDependencies": {
+    "frisby": "^0.8.5"
+  }
+}

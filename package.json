@@ -4,7 +4,7 @@
   "description": "fair trade task",
   "main": "index.coffee",
   "scripts": {
-    "test": "export NODE_ENV=test && jasmine-node --coffee tests/api"
+    "test": "export NODE_ENV=test && jasmine-node --coffee tests"
   },
   "author": "radzserg@gmail.com",
   "license": "ISC",
@@ -12,6 +12,8 @@
     "body-parser": "^1.12.3",
     "express": "^4.12.3",
     "iron_mq": "^0.2.4",
+    "mongoose": "^4.0.2",
+    "promise": "^7.0.1",
     "tracer": "^0.7.4",
     "underscore": "^1.8.3"
   },

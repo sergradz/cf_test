@@ -18,11 +18,13 @@ sendError = (res, err, code = 400) ->
   POST /api/messages
 ###
 router.post "/", (req, res) ->
-  message = req.body
+  message = JSON.stringify(req.body)
+  console.log message
   # perhaps some validation but not in this scope
   queue.post message, (error, body) ->
     if error
       return sendError(res, error)
+    console.log body
     res.status(201)
     res.json
       result: "OK"

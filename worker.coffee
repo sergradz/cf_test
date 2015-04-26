@@ -40,7 +40,14 @@ checkQueue = () ->
         # for now just delete message from queue. Perhaps add fallback here, but not in this scope
         logger.error(error)
       logger.info message
-      io.emit('message', message);
+
+      Message.count (error, count) ->
+        data =
+          total: count
+          time: new Date()
+        console.log data
+        io.emit('new_data', data);
+
       checkQueue()
       queue.del body.id, (error, body) ->
         return logger.error(error) if error

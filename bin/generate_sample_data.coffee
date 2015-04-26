@@ -3,10 +3,9 @@ fakeMessage = require '../lib/services/fake_message.coffee'
 moment = require 'moment'
 rest = require 'restler'
 logger = require("tracer").console()
+_ = require 'underscore'
 
-intervalTimeout = 1000
-
-setInterval () ->
+generateEvent = () ->
   message = fakeMessage
     currencyFrom: "USD"
     currencyTo: "GBP"
@@ -17,5 +16,8 @@ setInterval () ->
   rest.post(config.baseUrl + '/api/messages', data: message).on 'complete', (data, response) ->
     if response.statusCode != 201
       console.error "Cannot post message"
+  intervalTimeout = _.random(100, 3000)
+  setTimeout(generateEvent, intervalTimeout)
 
-, intervalTimeout
+
+generateEvent();

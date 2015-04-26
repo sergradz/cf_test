@@ -4,24 +4,109 @@
     <meta charset="UTF-8">
     <title></title>
 
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
 </head>
 <body>
 
+    <h4>Total count of proceed messages: <span id="total_count"></span></h4>
+
+    <div id="totalMessagesCount"></div>
 
 
-<script src="/socket.io/socket.io.js"></script>
 <script>
+
+    var series;
+    $(document).ready(function () {
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
+        $('#totalMessagesCount').highcharts({
+            chart: {
+                type: 'spline',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                marginLeft: 10,
+                events: {
+                    load: function () {
+                        // set up the updating of the chart each second
+                        series = this.series[0];
+                    }
+                }
+            },
+
+            title: {
+                text: 'Total request count'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+            yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                            Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                            Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: 'Total request count',
+                data: (function () {
+                    // will show data for last minute
+                    var data = [],
+                            time = (new Date()).getTime(),
+                            i;
+
+                    for (i = -60; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: null
+                        });
+                    }
+                    return data;
+                }())
+            }]
+        });
+    });
+
     var socket = io();
 
     socket.on("connect", function(){
         console.log("Connected to socket server");
     });
 
-    socket.on("message", function(message){
-        console.log(message)
+    socket.on("new_data", function(data){
+        $("#total_count").text(data.total);
+
+        series.addPoint([(new Date()).getTime(), parseInt(data.total)], true, true);
     });
+
+
+
+
 </script>
 
 

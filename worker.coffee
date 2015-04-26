@@ -8,6 +8,8 @@ mongoose = require 'mongoose'
 logger = require("tracer").console()
 Message = require './lib/models/message.coffee'
 
+io = require('socket.io-emitter')(config.redis);
+
 mongoose.connect config.mongodsn
 db = mongoose.connection
 db.on "error", ->
@@ -38,6 +40,7 @@ checkQueue = () ->
         # for now just delete message from queue. Perhaps add fallback here, but not in this scope
         logger.error(error)
       logger.info message
+      io.emit('message', message);
       checkQueue()
       queue.del body.id, (error, body) ->
         return logger.error(error) if error

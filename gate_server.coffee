@@ -1,3 +1,6 @@
+###
+
+###
 express = require("express")
 app = express()
 http = require("http").Server(app)
@@ -14,6 +17,6 @@ app.use "/api/messages", require "./routes/api/messages"
 
 
 env = process.env.NODE_ENV || "development"
-logger.info "Starting yogurt chat server " + env + " environment"
+logger.info "Starting consumer server " + env + " environment"
 http.listen config.api_port, ->
   logger.info "listening on *:" + config.api_port

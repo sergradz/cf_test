@@ -14,6 +14,7 @@ mongoose.connect config.mongodsn
 db = mongoose.connection
 db.on "error", ->
   logger.error("connection error:")
+  process.exit(1)
 db.once "open", ->
   logger.info "Mongo connected"
 
@@ -34,6 +35,7 @@ checkQueue = () ->
 
     messageData = JSON.parse(body.body)
     logger.info messageData
+
     message = new Message(messageData)
     message.save (error, message) ->
       if error
@@ -41,15 +43,27 @@ checkQueue = () ->
         logger.error(error)
       logger.info message
 
-      Message.count (error, count) ->
-        data =
-          total: count
-          time: new Date()
-        console.log data
-        io.emit('new_data', data);
+      console.log message
+
+      io.emit 'new_data',
+        currencyFrom: message.currencyFrom
+        currencyTo: message.currencyTo
+        timePlaces: message.timePlaced
+        rate: message.rate
 
       checkQueue()
       queue.del body.id, (error, body) ->
         return logger.error(error) if error
 
 checkQueue()
+
+###
+setInterval () ->
+  io.emit 'new_data',
+    currencyFrom: "GBP",
+    currencyTo: "GYD",
+    timePlaces: "2015-04-26T03:21:57.000Z",
+    rate: 0.9852216748768474
+, 1000
+
+###

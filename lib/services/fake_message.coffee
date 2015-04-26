@@ -10,6 +10,7 @@ countryCodes =  ["AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS
 
 module.exports = (options = {}) ->
 
+
   userId = if options.userId then options.userId else _.random(1, 9999999)
   timePlaced = if options.timePlaced then options.timePlaced else moment(faker.date.recent()).format('DD-MMM-YYYY hh:mm:ss')
   currencyFrom = if options.currencyFrom then options.currencyFrom else faker.finance.currencyCode()

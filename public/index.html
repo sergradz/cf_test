@@ -12,15 +12,12 @@
     <script src="/bower_components/moment/moment.js"></script>
 </head>
 <body>
-
-    <h4>Total count of proceed messages: <span id="total_count"></span></h4>
-
-    <div id="totalMessagesCount"></div>
-
+    <h3>Currency rates in real time</h3>
+    <div id="currencyRates"></div>
 
 <script>
 
-    var series;
+    var chart;
     $(document).ready(function () {
         Highcharts.setOptions({
             global: {
@@ -28,22 +25,16 @@
             }
         });
 
-        $('#totalMessagesCount').highcharts({
+        $('#currencyRates').highcharts({
             chart: {
                 type: 'spline',
                 animation: Highcharts.svg, // don't animate in old IE
                 marginRight: 10,
-                marginLeft: 10,
-                events: {
-                    load: function () {
-                        // set up the updating of the chart each second
-                        series = this.series[0];
-                    }
-                }
+                marginLeft: 10
             },
 
             title: {
-                text: 'Total request count'
+                text: 'Currency Rates'
             },
             xAxis: {
                 type: 'datetime',
@@ -63,7 +54,7 @@
                 formatter: function () {
                     return '<b>' + this.series.name + '</b><br/>' +
                             Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                            Highcharts.numberFormat(this.y, 2);
+                            Highcharts.numberFormat(this.y, 4);
                 }
             },
             legend: {
@@ -72,24 +63,13 @@
             exporting: {
                 enabled: false
             },
-            series: [{
-                name: 'Total request count',
-                data: (function () {
-                    // will show data for last minute
-                    var data = [],
-                            time = (new Date()).getTime(),
-                            i;
+            series: [
 
-                    for (i = -60; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: null
-                        });
-                    }
-                    return data;
-                }())
-            }]
+            ]
         });
+
+        chart = $('#currencyRates').highcharts();
+        console.log(chart)
     });
 
     var socket = io();
@@ -98,10 +78,21 @@
         console.log("Connected to socket server");
     });
 
-    socket.on("new_data", function(data){
-        $("#total_count").text(data.total);
+    socket.on("new_data", function(data) {
+        console.log(data);
+        var seriesId = data.currencyFrom + "_" + data.currencyTo;
 
-        series.addPoint([(new Date()).getTime(), parseInt(data.total)], true, true);
+        var series = chart.get(seriesId);
+        if (!series) {
+            series = chart.addSeries({
+                id: seriesId,
+                name:  data.currencyFrom + "/" + data.currencyTo,
+                data: []
+            }, true);
+        }
+        var now = (new Date()).getTime();
+        var shift = (now - chart.xAxis[0].min) / 1000 > 60;
+        series.addPoint([now, data.rate], true, shift);
     });
 
 

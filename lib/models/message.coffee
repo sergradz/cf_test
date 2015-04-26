@@ -44,6 +44,7 @@ messageSchema = new Schema(
 
   timePlaced:
     required: true
+    index: true
     type: Date
 
   created_at:

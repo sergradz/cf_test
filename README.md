@@ -1,3 +1,7 @@
+## Requirements
+
+Redis
+
 ## Installation
 
 * npm install

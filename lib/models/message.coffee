@@ -6,18 +6,21 @@ messageSchema = new Schema(
   userId:
     type: Number
     required: true
+    index: true
 
   currencyFrom:
     type: String
-    trim: true,
-    uppercase: true,
+    trim: true
+    uppercase: true
     required: true
+    index: true
 
   currencyTo:
     type: String
-    trim: true,
-    uppercase: true,
+    trim: true
+    uppercase: true
     required: true
+    index: true
 
   amountSell:
     type: Number
@@ -39,8 +42,11 @@ messageSchema = new Schema(
     uppercase: true,
     required: true
 
+  timePlaced:
+    required: true
+    type: Date
+
   created_at:
-    index: true
     type: Date
     default: Date.now
 )

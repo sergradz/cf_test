@@ -24,11 +24,8 @@ router.post "/", (req, res) ->
   queue.post message, (error, body) ->
     if error
       return sendError(res, error)
-    console.log body
     res.status(201)
     res.json
       result: "OK"
-
-
 
 module.exports = router

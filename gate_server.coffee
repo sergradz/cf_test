@@ -12,6 +12,8 @@ config = require("./config/config.coffee")
 app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: false)
 
+app.use require("./lib/services/api_auth")
+
 # routes
 app.use "/api/messages", require "./routes/api/messages"
 

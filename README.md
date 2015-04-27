@@ -47,6 +47,8 @@ npm test - runs functional and unit tests in test ENV
 coffee bin/generate_sample_data.coffee - will generate realistic data to gate server. I used only a few currency codes
 for demo.
 
+### Frontend 
+I thought about rendering. What is the best way to show data. But everything depends on amount of messages. At the beginning I just wanted to show total amount of requests and amount requests per minute. Nevertheless decided to show currency rates in realtime. But again beautiful output depends on amount of requests.
 
 ### Question
 don't you think that publishing a link to google docs will show gmail contact of other members. Then it's

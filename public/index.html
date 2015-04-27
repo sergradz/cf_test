@@ -91,6 +91,7 @@
             }, true);
         }
         var now = (new Date()).getTime();
+        // in fact we show time where we get the message not time placed
         var shift = (now - chart.xAxis[0].min) / 1000 > 60;
         series.addPoint([now, data.rate], true, shift);
     });

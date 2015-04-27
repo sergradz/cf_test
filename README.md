@@ -47,3 +47,8 @@ npm test - runs functional and unit tests in test ENV
 coffee bin/generate_sample_data.coffee - will generate realistic data to gate server. I used only a few currency codes
 for demo.
 
+
+### Question
+don't you think that publishing a link to google docs will show gmail contact of other members. Then it's
+not a big issue to get there github account where they are going to publish their work. I created another githut account
+for this project.

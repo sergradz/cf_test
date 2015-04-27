@@ -5,8 +5,8 @@ rest = require 'restler'
 logger = require("tracer").console()
 _ = require 'underscore'
 
+# use a few for demo
 sampleCurrencyCodes = ["USD", "GBP", "EUR", "CHF"]
-
 
 generateEvent = () ->
 
@@ -22,8 +22,8 @@ generateEvent = () ->
 
   jsonMessage = JSON.stringify(message)
   logger.info "Posting message: " + jsonMessage
-  rest.post(config.baseUrl + '/api/messages', data: message, {'Authorization': 'bearer demo'}).on 'complete', (data, response) ->
-    if response && typeof response.statusCode != 'undefined' && response.statusCode != 201
+  rest.post(config.baseUrl + '/api/messages', {data: message, headers: {'Authorization': 'bearer demo'}}).on 'complete', (data, response) ->
+    if response.statusCode != 201
       console.error "Cannot post message"
   intervalTimeout = _.random(100, 1000)
   setTimeout(generateEvent, intervalTimeout)

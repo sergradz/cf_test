@@ -21,7 +21,7 @@ db.once "open", ->
 ironMqClient = new ironMq.Client(config.ironmq)
 queue = ironMqClient.queue(config.ironmq.queue_name)
 
-checkTimeout = config.queue_timeout || 1000
+checkTimeout = config.queue_timeout || 10000
 
 
 checkQueue = () ->
@@ -43,12 +43,11 @@ checkQueue = () ->
         logger.error(error)
       logger.info message
 
-      console.log message
-
       io.emit 'new_data',
         currencyFrom: message.currencyFrom
         currencyTo: message.currencyTo
-        timePlaces: message.timePlaced
+        timePlaced: message.timePlaced
+        createdAt: message.createdAt
         rate: message.rate
 
       checkQueue()
@@ -56,14 +55,3 @@ checkQueue = () ->
         return logger.error(error) if error
 
 checkQueue()
-
-###
-setInterval () ->
-  io.emit 'new_data',
-    currencyFrom: "GBP",
-    currencyTo: "GYD",
-    timePlaces: "2015-04-26T03:21:57.000Z",
-    rate: 0.9852216748768474
-, 1000
-
-###

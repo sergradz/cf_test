@@ -47,7 +47,7 @@ messageSchema = new Schema(
     index: true
     type: Date
 
-  created_at:
+  createdAt:
     type: Date
     default: Date.now
 )
